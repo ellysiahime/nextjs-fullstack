@@ -15,6 +15,7 @@ use('ecommerce-nextjs');
 db.getCollection('carts').insertMany([
   { userId: '1', cartIds: ['123', '234'] },
   { userId: '2', cartIds: ['345', '456'] },
+  { userId: '3', cartIds: ['456'] },
 ]);
 
 console.log(db.getCollection('carts').find({}));
