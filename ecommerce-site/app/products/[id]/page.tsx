@@ -1,9 +1,11 @@
 import Image from "next/image";
-import { products } from '@/app/product-data';
 import NotFoundPage from "@/app/not-found";
 
-export default function ProductDetailPage({params} : {params: {id: string}}) {
-  const product = products.find((p) => p.id === params.id);
+export const dynamic = 'force-dynamic'; 
+
+export default async function ProductDetailPage({params} : {params: {id: string}}) {
+  const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + 'api/products/' + params.id)
+  const product = await response.json();
 
   if (!product) {
     return <NotFoundPage />;

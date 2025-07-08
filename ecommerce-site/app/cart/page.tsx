@@ -1,21 +1,17 @@
-'use client'
-import Link from "next/link";
-import { useState } from "react";
-import { products } from "../product-data";
+import ShoppingCartList from "./ShoppingCartList";
 
-export default function CartPage() {
-  const [cartIds] = useState(['123','345']);
-  const cartProducts = cartIds.map(id => products.find(p => p.id === id)!);
+export const dynamic = 'force-dynamic'; 
+
+export default async function CartPage() {
+  const response = await fetch(process.env.NEXT_PUBLIC_SITE_URL + 'api/users/2/cart', 
+    {
+      cache: 'no-store' // Disable caching for this request
+    }
+  );
+  const cartProducts = await response.json();
 
   return (
-    <main>
-      <h1>Shopping Cart</h1>
-      {cartProducts.map((product => 
-        <Link key={product.id} href={"/products/" + product.id}>
-          <h3>{product.name}</h3>
-          <p>Price: ${product.price}</p>
-        </Link>
-      ))}
-    </main>
+    <ShoppingCartList initialCartProducts={cartProducts} />
   );
+  
 }
